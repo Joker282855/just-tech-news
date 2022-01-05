@@ -3,7 +3,12 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 // model creation
-class User extends Model {}
+class User extends Model {
+    // setting up the method that compares the unhashed password with the hashed password
+    checkPassword(loginPw) {
+        return bcrypt.compareSync(loginPw, this.password)
+    }
+}
 
 // define the values that will go into this table
 User.init(
