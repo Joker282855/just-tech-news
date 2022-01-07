@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { User } = require('../../models');
-const { restore } = require('../../models/User');
 
 // create the route to get all the users information
 router.get('/', (req, res) => {
