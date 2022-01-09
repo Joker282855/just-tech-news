@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Post, User } = require('../../models');
+const { Post, User, Vote } = require('../../models');
 
 // creating the get route for all posts
 router.get('/', (req, res) => {
@@ -59,6 +59,16 @@ router.post('/', (req, res) => {
             res.status(500).json(err);
         });
 });
+
+// route used to add the users vote to the post
+router.put('/upvote', (req, res) => {
+    Vote.create({
+        user_id: req.body.user_id,
+        post_id: req.body.post_id
+    })
+        .then(dbPostData => res.json(dbPostData))
+        .catch(err => res.json(err));
+})
 
 // route used to update an existing post
 router.put('/:id', (req, res) => {
