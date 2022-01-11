@@ -2,6 +2,7 @@ const sequelize = require('../../config/connection');
 const router = require('express').Router();
 const { Post, User, Vote } = require('../../models');
 
+
 // creating the get route for all posts
 router.get('/', (req, res) => {
     Post.findAll({
@@ -74,10 +75,11 @@ router.put('/upvote', (req, res) => {
                 attributes: [
                     'id',
                     'post_url',
+                    'title',
                     'created_at',
                     [
-                        seqeulize.literal('(SELECT COUNT(*) FROM vote WHERE post_id = vote.post_id)'),
-                        'vote count'
+                        seqeulize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'),
+                        'vote_count'
                     ]
                 ]
             })
