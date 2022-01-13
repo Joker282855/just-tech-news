@@ -69,8 +69,8 @@ router.put('/upvote', (req, res) => {
     .catch(err => {
         console.log(err);
         res.status(400).json(err);
-    })
-})
+    });
+});
 
 // route used to update an existing post
 router.put('/:id', (req, res) => {
