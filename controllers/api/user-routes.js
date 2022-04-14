@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User, Post, Vote, Comment } = require('../../models');
+const { restore } = require('../../models/User');
 
 // create the route to get all the users information
 router.get('/', (req, res) => {
@@ -145,6 +146,18 @@ router.delete('/:id', (req, res) => {
                 console.log(err);
                 res.status(500).json(err);
             });
+});
+
+// route used to destroy the session when user logs out of blog
+router.post('/logout', (req, res) => {
+    if(req.session.loggedIn) {
+        req.session.destroy(() => {
+            res.status(204).end();
+        });
+    }
+    else {
+        res.status(404).end();
+    }
 });
 
 module.exports = router
