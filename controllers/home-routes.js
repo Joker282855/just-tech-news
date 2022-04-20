@@ -54,27 +54,55 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/post/:id', (req, res) => {
-    const post = {
+   Post.findOne({
+       where: {
+           id: req.params.id
+       },
 
-        id: 1,
+       attributes: [
+           'id',
+           'post_url',
+           'title',
+           'created_at',
+           [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
+       ],
 
-        post_url: 'https://handlebarsjs.com/guide',
+       include: [
+           {
+               model: Comment,
+               
+               attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
 
-        title: 'Handlebars Docs',
+               include: {
+                   model: User,
+                   
+                   attributes: ['username'],
+               }
+           },
+           {
+               model: User,
 
-        created_at: new Date(),
+               attributes: ['username']
+           }
+       ]
+   })
+    .then(dbPostData => {
+        if (!dbPostData) {
+            res.status(404).json({ message: 'No post found with this id' });
 
-        vote_count: 10,
+            return;
 
-        comments: [{}, {}],
-
-        user: {
-            username: 'test_user'
         }
-    };
 
+        const post = dbPostData.get({ plain: true });
 
-    res.render('single-post', { post });
+        res.render('single-post', { post });
+    })
+    .catch(err => {
+        console.log(err);
+
+        res.status(500).json(err);
+    });
 });
 
 module.exports = router;
