@@ -84,9 +84,9 @@ router.post('/', (req, res) => {
 // route used to add the users vote to the post
 router.put('/upvote', (req, res) => {
     if (req.session) {
-        Post.upvote({...req.body, user_id: req.session.user_id}, {Vote, Comment, User })
+        Post.upvote({ ...req.body, user_id: req.session.user_id }, { Vote, Comment, User })
 
-            .then(updatedVoteData => res.json(updatedVotedData))
+            .then(updatedVoteData => res.json(updatedVoteData))
 
             .catch(err => {
 
