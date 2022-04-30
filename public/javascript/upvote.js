@@ -13,7 +13,7 @@ async function upvoteClickHandler(event) {
         }),
 
         headers: {
-            'Content-type': 'application/json'
+            'Content-Type': 'application/json'
         }
     });
 
