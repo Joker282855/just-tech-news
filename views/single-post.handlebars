@@ -16,17 +16,7 @@
 
 {{/if}}
 
-<div class="comments">
-
-    {{#each post.comments}}
-
-    <section class="comment">
-        <div class="text">
-            {{comment_text}}
-        </div>
-    </section>
-    {{/each}}
-</div>
+{{> comments post.comments}}
 
 {{#if loggedIn}}
 
