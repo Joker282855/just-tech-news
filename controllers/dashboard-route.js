@@ -58,9 +58,9 @@ router.get('/', (req, res) => {
         .then(dbPostData => {
             // serialize data before passing it onto the dashboard page
 
-            const post = dbPostData.map(post => post.get({ plain: true }));
+            const posts = dbPostData.map(post => post.get({ plain: true }));
 
-            res.render('dashboard', { loggedIn: true});
+            res.render('dashboard', { posts, loggedIn: true});
 
         })
 
