@@ -4,6 +4,7 @@ const withAuth = require('../../utils/auth');
 const { Post, User, Vote, Comment } = require('../../models');
 
 
+
 // creating the get route for all posts
 router.get('/', (req, res) => {
     Post.findAll({

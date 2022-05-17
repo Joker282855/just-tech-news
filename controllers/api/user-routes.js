@@ -1,6 +1,7 @@
-const router = require('express').Router();
+const router = require('express').Router();ir
 const withAuth = require('../../utils/auth');
 const { User, Post, Vote, Comment } = require('../../models');
+
 
 // create the route to get all the users information
 router.get('/', (req, res) => {
