@@ -1,6 +1,6 @@
 const router = require('express').Router();
+const withAuth = require('../../utils/auth');
 const { User, Post, Vote, Comment } = require('../../models');
-const { restore } = require('../../models/User');
 
 // create the route to get all the users information
 router.get('/', (req, res) => {
@@ -56,7 +56,7 @@ router.get('/:id', (req, res) => {
 });
 
 // route used to read table information in order to create a new entry
-router.post('/', (req, res) => {
+router.post('/', withAuth, (req, res) => {
     User.create({
         username: req.body.username,
         email: req.body.email,
@@ -78,7 +78,7 @@ router.post('/', (req, res) => {
 });
 
 // creating a route for login authentication
-router.post('/login', (req, res) => {
+router.post('/login', withAuth, (req, res) => {
     User.findOne({
         where: {
             email: req.body.email
@@ -108,7 +108,7 @@ router.post('/login', (req, res) => {
 });
 
 // route used for updating  information in the model
-router.put('/:id', (req, res) => {
+router.put('/:id', withAuth, (req, res) => {
     User.update(req.body, {
         individualHooks: true,
         where: {
@@ -129,7 +129,7 @@ router.put('/:id', (req, res) => {
 });
 
 // route used to delete users from the user model
-router.delete('/:id', (req, res) => {
+router.delete('/:id', withAuth, (req, res) => {
     User.destroy({
         where: {
             id: req.params.id
@@ -149,7 +149,7 @@ router.delete('/:id', (req, res) => {
 });
 
 // route used to destroy the session when user logs out of blog
-router.post('/logout', (req, res) => {
+router.post('/logout', withAuth, (req, res) => {
     if(req.session.loggedIn) {
         req.session.destroy(() => {
             res.status(204).end();
