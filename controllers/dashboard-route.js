@@ -73,7 +73,7 @@ router.get('/', withAuth, (req, res) => {
         });
 });
 
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', withAuth, (req, res) => {
 
     Post.findOne({
         where: {
@@ -85,32 +85,32 @@ router.get('/edit/:id', (req, res) => {
             'post_url',
             'title',
             'created_at',
-            [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id'), 'vote_count']
+            [sequelize.literal('(SELECT COUNT(*) from VOTE WHERE post.id = vote.post_id)'), 'vote_count']
         ],
         include: [
+
             {
                 model: Comment,
 
                 attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
 
-                include: {
+                include: [
+                    {
+                        model: User,
 
-                    model: User,
-
-                    attributes: ['username'],
-                }
+                        attributes: ['username']
+                    }
+                ]
             },
             {
                 model: User,
 
-                include: ['username']
+                attributes: ['username']
             }
         ]
     })
     .then(dbPostData => {
-
         if (!dbPostData) {
-
             res.status(404).json({ message: 'No post found with this id' });
 
             return;
