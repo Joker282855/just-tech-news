@@ -40,7 +40,7 @@ async function loginFormHandler(event) {
                 email,
                 password
             }),
-            headers: { 'Content-Type': 'applicaiton/json' }
+            headers: { 'Content-Type': 'application/json' }
         });
 
         if(response.ok) {

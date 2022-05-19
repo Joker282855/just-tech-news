@@ -66,7 +66,7 @@ router.get('/:id', (req, res) => {
 });
 
 // the route used for creating a new post
-router.post('/', withAuth, (req, res) => {
+router.post('/', (req, res) => {
     Post.create({
         title: req.body.title,
         post_url: req.body.post_url,
