@@ -1,6 +1,5 @@
 const sequelize = require('../../config/connection');
 const router = require('express').Router();
-const withAuth = require('../../utils/auth');
 const { Post, User, Vote, Comment } = require('../../models');
 
 
@@ -84,7 +83,7 @@ router.post('/', withAuth, (req, res) => {
 });
 
 // route used to add the users vote to the post
-router.put('/upvote', withAuth, (req, res) => {
+router.put('/upvote', (req, res) => {
     if (req.session) {
         Post.upvote({ ...req.body, user_id: req.session.user_id }, { Vote, Comment, User })
 
@@ -100,7 +99,7 @@ router.put('/upvote', withAuth, (req, res) => {
 });
 
 // route used to update an existing post
-router.put('/:id', withAuth, (req, res) => {
+router.put('/:id', (req, res) => {
     Post.update(
         {
             title: req.body.title
@@ -123,7 +122,7 @@ router.put('/:id', withAuth, (req, res) => {
             });
 });
 
-router.delete('/:id', withAuth, (req, res) => {
+router.delete('/:id', (req, res) => {
     Post.destroy({
         where: {
             id: req.params.id
