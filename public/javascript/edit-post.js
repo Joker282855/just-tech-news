@@ -9,7 +9,7 @@ async function editFormHandler(event) {
     ];
 
     if (title) {
-        const response = await fetch(`api/posts/${id}`, {
+        const response = await fetch(`/api/posts/${id}`, {
 
             method: 'PUT',
 
